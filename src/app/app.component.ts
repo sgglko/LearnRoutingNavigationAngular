@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
+import {FormControl, FormGroup, FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-root',
@@ -9,15 +10,25 @@ import {Router} from "@angular/router";
 export class AppComponent {
   title = 'LearnRoutingNavigation';
 
-  constructor(private router: Router) {
+  testProp = new FormControl("");
+
+  profileForm = new FormGroup({
+    firstName: new FormControl("", Validators.min(2)),
+    lastName: new FormControl(""),
+    password: new FormControl("")
+  })
+
+  constructor(private router: Router, private fb: FormBuilder){
     this.router.events.subscribe((e) => {
       console.log(e);
     })
   }
 
-  goToRoute(route: string = "/fourth"): void {
-    this.router.navigateByUrl(route).then(() => {
-      console.log(this.router.url);
-    })
+  modifyFromControl(): void {
+   this.testProp.setValue("")
+  }
+
+  showFormGroup():void {
+    console.log(this.profileForm.value)
   }
 }
